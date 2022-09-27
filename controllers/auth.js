@@ -14,22 +14,33 @@ const loginUsuario = (req, res = express.response) => {
 
 }
 
-const crearUsuario = async (req, res = express.response)=>{
+const crearUsuario = async (req, res = express.response) => {
 
-  // const { name, email, password } = req.body
+  const { name, email, password } = req.body
 
-  const usuario = new Usuario(req.body)
 
   try {
 
+    let usuario = await Usuario.findOne({ email }) // email: email
+    // console.log(usuario) Si usuario no existe retorna null
+
+    if (usuario) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Ya se encuentra un usuario con este correo'
+      })
+    }
+
+    usuario = new Usuario(req.body)
     await usuario.save()
-    
+
     res.status(201).json({
       ok: true,
-      msg: 'registro',
-      // name,
-      // email,
-      // password,
+      // msg: 'registro',
+      uid: usuario.id,
+      name: usuario.name,
+      email: usuario.email,
+      // password: usuario.password,
     })
   } catch (error) {
     console.log(error)
@@ -38,10 +49,10 @@ const crearUsuario = async (req, res = express.response)=>{
       msg: 'Ocurrió un error, por favor hable con el administrador'
     })
   }
-  
+
 }
 
-const revalidarToken = (req, res = express.response)=>{
+const revalidarToken = (req, res = express.response) => {
 
   res.json({
     ok: true,

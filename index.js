@@ -3,7 +3,7 @@ const express = require('express')
 const { dbConnection } = require('./database/config')
 const dotenv = require('dotenv').config()
 
-// console.log(process.env)
+// console.log(process.env)  // VER VARIABLES DE ENTORNO
 
 // Crear el servidor de express
 const app = express()
