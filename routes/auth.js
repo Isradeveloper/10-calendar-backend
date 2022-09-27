@@ -7,13 +7,13 @@ const { Router } = require('express')
 // const router = express.Router
 const router = Router()
 
-router.get('/', (req, res)=>{
+const {loginUsuario, crearUsuario, revalidarToken} = require('../controllers/auth')
 
-  res.json({
-    ok: true
-  })
+router.post('/register', crearUsuario);
 
-});
+router.post('/', loginUsuario);
+
+router.get('/renew', revalidarToken);
 
 
 module.exports = router
